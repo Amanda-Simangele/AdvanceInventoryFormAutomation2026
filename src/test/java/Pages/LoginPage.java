@@ -11,30 +11,30 @@ public class LoginPage {
     WebDriver driver;
     WebDriverWait wait;
 
-    @FindBy (id="login-email")
+    @FindBy(id = "login-email")
     WebElement usernameField;
 
-    @FindBy (id="login-password")
+    @FindBy(id = "login-password")
     WebElement passwordField;
 
-    @FindBy (id="login-submit")
+    @FindBy(id = "login-submit")
     WebElement loginButton;
 
-    public LoginPage(WebDriver driver){
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
-    public void enterUsername(String username){
+    public void enterUsername(String username) {
         wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
     }
 
-    public void enterPassword(String password){
+    public void enterPassword(String password) {
         wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
     }
 
-    public void clickLoginButton(){
+    public void clickLoginButton() {
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 

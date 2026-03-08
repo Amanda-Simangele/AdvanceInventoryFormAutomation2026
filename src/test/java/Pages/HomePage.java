@@ -11,29 +11,28 @@ public class HomePage {
     WebDriver driver;
     WebDriverWait wait;
 
-    @FindBy (xpath = "//h1[@class=\"hero-title\"]")
+    @FindBy(xpath = "//h1[@class=\"hero-title\"]")
     WebElement welcomeMessage;
 
     @FindBy(xpath = "//button[@class=\"user-pill\"]")
     WebElement loginButton;
 
-    public  HomePage(WebDriver driver){
+    public HomePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
 
     }
+
     //method to get the welcome message text
-    public String getWelcomeMessage(){
+    public String getWelcomeMessage() {
         return wait.until(ExpectedConditions.visibilityOf(welcomeMessage)).getText();
     }
 
-    public void clickLoginButton(){
+    // method to click on the login button
+    public void clickLoginButton() {
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
-
-
-
 
 
 }
