@@ -152,7 +152,7 @@ public class LearningMaterialPage {
         wait.until(ExpectedConditions.elementToBeClickable(warranty1YearRadioButton)).click();
     }
 
-    public String verifyWarrantyCostLabel() {
+    public String getWarrantyCostLabel() {
         return wait.until(ExpectedConditions.visibilityOf(warrantyCostLabel)).getText();
     }
 

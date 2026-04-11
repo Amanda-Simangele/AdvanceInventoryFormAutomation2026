@@ -90,7 +90,7 @@ public class SuccessfulPurchase extends BaseTest {
 
      @Test (dependsOnMethods = "clickWarranty")
      public void verifyWarrantyCost() {
-         Assert.assertEquals(learningMaterialPage.verifyWarrantyCostLabel(), "R49.00");
+         Assert.assertEquals(learningMaterialPage.getWarrantyCostLabel(), "R49.00");
      }
 
      @Test (dependsOnMethods = "verifyWarrantyCost")
