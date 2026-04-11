@@ -34,6 +34,7 @@
                         <suiteXmlFiles>
                             <suiteXmlFile>testng.xml</suiteXmlFile>
                         </suiteXmlFiles>
+                    </configuration>
                 </plugin>
 
             </plugins>

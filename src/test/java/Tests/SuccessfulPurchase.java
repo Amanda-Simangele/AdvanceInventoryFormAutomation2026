@@ -7,126 +7,130 @@ import org.testng.annotations.Test;
 
 public class SuccessfulPurchase extends BaseTest {
 
-    @Test
+    @Test(groups = {"smoke"})
     public void verifyLoginPageTitle() {
         Assert.assertEquals(homePage.getWelcomeMessage(),"Master Test Automation");
         homePage.clickLoginButton();
     }
 
-    @Test (dependsOnMethods = "verifyLoginPageTitle" , dataProviderClass = ReadXLSData.class, dataProvider = "testData" )
-    public void login( String username, String password) {
+    @Test(dependsOnMethods = "verifyLoginPageTitle", dataProviderClass = ReadXLSData.class, dataProvider = "testData",
+            groups = {"smoke"})
+    public void login(String username, String password) {
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
         loginPage.clickLoginButton();
     }
-    @Test(dependsOnMethods = "login")
+
+    @Test(dependsOnMethods = "login", groups = {"smoke"})
     public void clickLearn() {
         Assert.assertEquals(welcomePage.getWelcomeBackMessage(), "Here's an overview of your learning journey");
         welcomePage.clickLearnButton();
         welcomePage.clickLearningMaterialsButton();
 
     }
-    @Test(dependsOnMethods = "clickLearn")
+
+    @Test(dependsOnMethods = "clickLearn", groups = {"smoke"})
     public void verifyLearningMaterialsPage() {
         Assert.assertEquals(learningMaterialPage.getAPItestingPracticeTitle(), "API Testing Practice");
     }
-    @Test(dependsOnMethods = "verifyLearningMaterialsPage")
+
+    @Test(dependsOnMethods = "verifyLearningMaterialsPage", groups = {"regression"})
     public void clickWebTab() {
         learningMaterialPage.clickWebTabButton();
     }
-    @Test(dependsOnMethods = "clickWebTab")
+
+    @Test(dependsOnMethods = "clickWebTab", groups = {"regression"})
     public void selectDeviceType() {
         learningMaterialPage.selectDeviceType("Phone");
     }
     //add a method to verify brand is enabled after selecting device type
 
-    @Test(dependsOnMethods = "selectDeviceType")
+    @Test(dependsOnMethods = "selectDeviceType", groups = {"regression"})
     public void selectBrand() {
         learningMaterialPage.selectBrand("Apple");
     }
-    @Test(dependsOnMethods = "selectBrand")
+    @Test(dependsOnMethods = "selectBrand", groups = {"regression"})
     public void selectStorage() {
         learningMaterialPage.selectStorage128GB();
     }
-    @Test(dependsOnMethods = "selectStorage")
+    @Test(dependsOnMethods = "selectStorage", groups = {"regression"})
     public void selectColor() {
         learningMaterialPage.SelectColor("Blue");
     }
-    @Test(dependsOnMethods = "selectColor")
+    @Test(dependsOnMethods = "selectColor", groups = {"regression"})
     public void enterQuantity() throws InterruptedException {
         learningMaterialPage.selectQuantity();
         Thread.sleep(2000);
     }
 
-    @Test (dependsOnMethods = "enterQuantity")
+    @Test(dependsOnMethods = "enterQuantity", groups = {"regression"})
     public void verifySubtotal(){
         Assert.assertEquals(learningMaterialPage.getSubtotalLabel(), "R960.00");
     }
 
-    @Test (dependsOnMethods = "verifySubtotal")
+    @Test(dependsOnMethods = "verifySubtotal", groups = {"regression"})
     public void enterAddress(){
         learningMaterialPage.enterAddress("123 Test Street");
     }
 
-    @Test (dependsOnMethods = "enterAddress")
+    @Test(dependsOnMethods = "enterAddress", groups = {"regression"})
     public void clickNext() {
         learningMaterialPage.clickNextButton();
     }
 
-     @Test (dependsOnMethods = "clickNext")
+     @Test(dependsOnMethods = "clickNext", groups = {"regression"})
      public void clickExpressShipping() {
          learningMaterialPage.clickExpressShipping();
      }
 
-    @Test(dependsOnMethods = "clickExpressShipping")
+    @Test(dependsOnMethods = "clickExpressShipping", groups = {"regression"})
     public void verifyShippingCost() {
         Assert.assertEquals(learningMaterialPage.verifyShippingCostLabel(), "R25.00");
     }
 
-     @Test(dependsOnMethods = "verifyShippingCost")
+     @Test(dependsOnMethods = "verifyShippingCost", groups = {"regression"})
         public void clickWarranty() {
             learningMaterialPage.clickWarranty1Year();
      }
 
-     @Test (dependsOnMethods = "clickWarranty")
+     @Test(dependsOnMethods = "clickWarranty", groups = {"regression"})
      public void verifyWarrantyCost() {
          Assert.assertEquals(learningMaterialPage.getWarrantyCostLabel(), "R49.00");
      }
 
-     @Test (dependsOnMethods = "verifyWarrantyCost")
+     @Test(dependsOnMethods = "verifyWarrantyCost", groups = {"regression"})
         public void clickNextButton() {
             learningMaterialPage.enterDiscountCode("SAVE10");
      }
 
-     @Test (dependsOnMethods = "clickNextButton")
+     @Test(dependsOnMethods = "clickNextButton", groups = {"regression"})
         public void clickApplyDiscount() {
             learningMaterialPage.clickApplyDiscount();
      }
 
-     @Test (dependsOnMethods = "clickApplyDiscount")
+     @Test(dependsOnMethods = "clickApplyDiscount", groups = {"regression"})
         public void verifyOrderSummary() {
             Assert.assertEquals(learningMaterialPage.getDiscountValueLabel(), "- R103.40");
      }
-        @Test (dependsOnMethods = "verifyOrderSummary")
+        @Test(dependsOnMethods = "verifyOrderSummary", groups = {"regression"})
             public void clickPurchase() {
                 learningMaterialPage.clickPurchaseButton();
         }
 
-        @Test(dependsOnMethods = "clickPurchase")
+        @Test(dependsOnMethods = "clickPurchase", groups = {"regression"})
         public void verifyOrderConfirmation() {
                 Assert.assertEquals(learningMaterialPage.getOrderConfirmationMessage(), "ORDER SUCCESSFUL! \uD83C\uDF89");
         }
-        @Test(dependsOnMethods = "verifyOrderConfirmation")
+        @Test(dependsOnMethods = "verifyOrderConfirmation", groups = {"regression"})
         public void clickViewInvoice() throws InterruptedException {
             Thread.sleep(2000);
             learningMaterialPage.clickViewInvoiceButton();
         }
-        @Test(dependsOnMethods = "clickViewInvoice")
+        @Test(dependsOnMethods = "clickViewInvoice", groups = {"regression"})
         public void clickInvoice() throws InterruptedException {
             Thread.sleep(2000);
             learningMaterialPage.clickInvoicePDFButton();
         }
-
 
 
 

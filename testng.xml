@@ -6,8 +6,17 @@
         <listener class-name="Listeners.AllureListener"/>
     </listeners>
 
+    <!--
+      This testng.xml lists the test classes. To run a specific group use Maven:
+        mvn -Dgroups=smoke test
+      or with TestNG directly: java -cp ... org.testng.TestNG -groups smoke testng.xml
+
+      When no -Dgroups is provided Maven/TestNG runs all tests present in the suite.
+    -->
+
     <test name="Tests">
         <classes>
+            <!-- keep your main test classes here -->
             <class name="Tests.SuccessfulPurchase"/>
         </classes>
     </test>
