@@ -20,11 +20,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.15.0</version>
+                    <version>3.14.0</version>
                     <configuration>
-                        <!-- put your configurations here -->
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
                     </configuration>
                 </plugin>
+
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -34,6 +36,9 @@
                         <suiteXmlFiles>
                             <suiteXmlFile>testng.xml</suiteXmlFile>
                         </suiteXmlFiles>
+                        <parallel>methods</parallel>
+                        <threadCount>2</threadCount>
+                        <useFile>false</useFile>
                     </configuration>
                 </plugin>
 
@@ -87,6 +92,15 @@
             <artifactId>extentreports</artifactId>
             <version>5.1.2</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!--SnakeYAML is a Java library used to read (parse) and write YAML files.
+       It provides a simple and efficient way to work with YAML data in Java applications.
+       SnakeYAML lets your Java code understand .yml or .yaml files.-->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
         </dependency>
 
     </dependencies>

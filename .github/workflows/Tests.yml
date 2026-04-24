@@ -1,14 +1,13 @@
 name: Advanced Inventory Form Tests
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   test:
@@ -34,6 +33,7 @@ jobs:
       - name: Run TestNG suites (testng.xml)
         timeout-minutes: 15
         run: mvn -U test -Dsurefire.suiteXmlFiles=testng.xml
+
 
       - name: Show generated folders
         if: always()
@@ -65,64 +65,71 @@ jobs:
         if: always()
         run: |
           if [ -f target/surefire-reports/testng-results.xml ]; then
-            TOTAL=$(grep -oE 'total="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
-            PASSED=$(grep -oE 'passed="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
-            FAILED=$(grep -oE 'failed="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
-            SKIPPED=$(grep -oE 'skipped="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
-            echo "TEST_TOTAL=${TOTAL:-0}" >> $GITHUB_ENV
-            echo "TEST_PASSED=${PASSED:-0}" >> $GITHUB_ENV
-            echo "TEST_FAILED=${FAILED:-0}" >> $GITHUB_ENV
-            echo "TEST_SKIPPED=${SKIPPED:-0}" >> $GITHUB_ENV
-          else
-            echo "TEST_TOTAL=N/A" >> $GITHUB_ENV
-            echo "TEST_PASSED=N/A" >> $GITHUB_ENV
-            echo "TEST_FAILED=N/A" >> $GITHUB_ENV
-            echo "TEST_SKIPPED=N/A" >> $GITHUB_ENV
-          fi
+           TOTAL=$(grep -oE 'total="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
+           PASSED=$(grep -oE 'passed="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
+           FAILED=$(grep -oE 'failed="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
+           SKIPPED=$(grep -oE 'skipped="[0-9]+"' target/surefire-reports/testng-results.xml | head -1 | grep -oE '[0-9]+')
+           echo "TEST_TOTAL=${TOTAL:-0}" >> $GITHUB_ENV
+           echo "TEST_PASSED=${PASSED:-0}" >> $GITHUB_ENV
+           echo "TEST_FAILED=${FAILED:-0}" >> $GITHUB_ENV
+           echo "TEST_SKIPPED=${SKIPPED:-0}" >> $GITHUB_ENV
+           else
+             echo "TEST_TOTAL=N/A" >> $GITHUB_ENV
+             echo "TEST_PASSED=N/A" >> $GITHUB_ENV
+             echo "TEST_FAILED=N/A" >> $GITHUB_ENV
+             echo "TEST_SKIPPED=N/A" >> $GITHUB_ENV
+           fi
 
       - name: Send Email with Emailable Report Attachment
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.EMAIL_ADDRESS }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Rest Assured Automation Test Results - Allure Report for 1st Group
-          to: simangeleramavhale@gmail.com
-          from: ${{ secrets.EMAIL_ADDRESS }}
+          # SMTP server configuration
+          server_address: smtp.gmail.com                    # Gmail SMTP server
+          server_port: 587                                  # TLS secure connection port
+          # Authentication credentials (stored in GitHub secrets for security)
+          username: ${{ secrets.EMAIL_USERNAME }}           # Gmail account email
+          password: ${{ secrets.EMAIL_PASSWORD }}           # Gmail app-specific password
+          # Email content
+          subject: Rest Assured Automation Test Results - Allure Report for 1st Group  # Email subject line
+          to: fitness.seed@gmail.com                        # Recipient email address
+          from: ${{ secrets.EMAIL_USERNAME }}               # Sender email address
+          # Message body with test execution details and formatting
           body: |
             Hi Team,
-
+            
             ═══════════════════════════════════════════════════════════
                           TEST EXECUTION REPORT
             ═══════════════════════════════════════════════════════════
-
+            
             Repository  :  ${{ github.repository }}
             Branch      :  ${{ github.ref_name }}
             Commit      :  ${{ github.sha }}
             Run Number  :  ${{ github.run_number }}
             Triggered by:  ${{ github.actor }}
             Status      :  COMPLETED
-
+            
             ───────────────────────────────────────────────────────────
                           TEST RESULTS SUMMARY
             ───────────────────────────────────────────────────────────
-
+            
             Total Tests :  ${{ env.TEST_TOTAL }}
             ✅ Passed    :  ${{ env.TEST_PASSED }}
             ❌ Failed    :  ${{ env.TEST_FAILED }}
             ⏭️ Skipped   :  ${{ env.TEST_SKIPPED }}
-
+            
             ═══════════════════════════════════════════════════════════
-
+            
             Please find the report attached to this email.
-
+            
             For more details, visit:
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
+            
             Kind Regards,
             Team Lead
 
           attachments: target/surefire-reports/emailable-report.html
+
+
+
 
