@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,6 +30,9 @@ public class WelcomePage {
     }
 
     public String getWelcomeBackMessage(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//p[normalize-space()=\"Here's an overview of your learning journey\"]")
+        ));
         return wait.until(ExpectedConditions.visibilityOf(welcomeBackMessage)).getText();
     }
 
