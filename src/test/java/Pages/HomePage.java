@@ -1,6 +1,7 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,7 +37,17 @@ public class HomePage {
 
     // method to click on the login button
     public void clickLoginButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+        wait.until(ExpectedConditions.visibilityOf(welcomeMessage));
+
+        WebElement button = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//button[contains(@class,'user-pill')]")
+        ));
+
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView(true);", button);
+
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].click();", button);
     }
 
 
