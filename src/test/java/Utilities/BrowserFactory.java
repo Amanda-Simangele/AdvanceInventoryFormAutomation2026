@@ -1,5 +1,6 @@
 package Utilities;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -33,7 +34,6 @@ public class BrowserFactory {
     private static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions();
 
-        // Detect CI environment (GitHub Actions, etc.)
         boolean isCI = System.getenv("CI") != null;
 
         if (isCI) {
@@ -41,6 +41,9 @@ public class BrowserFactory {
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
         }
+
+        // ✅ THIS LINE FIXES EVERYTHING
+        WebDriverManager.chromedriver().setup();
 
         return new ChromeDriver(options);
     }
