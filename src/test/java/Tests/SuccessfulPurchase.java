@@ -13,8 +13,7 @@ public class SuccessfulPurchase extends BaseTest {
         homePage.clickLoginButton();
     }
 
-    @Test(dependsOnMethods = "verifyLoginPageTitle", dataProviderClass = ReadXLSData.class, dataProvider = "testData"
-            )
+    @Test(dependsOnMethods = "verifyLoginPageTitle", dataProvider = "testData")
     public void login(String username, String password) {
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
