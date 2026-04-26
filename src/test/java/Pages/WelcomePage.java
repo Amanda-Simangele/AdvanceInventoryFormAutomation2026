@@ -37,10 +37,17 @@ public class WelcomePage {
     }
 
     public void clickLearnButton(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//button[.//span[normalize-space()='Learn']]")
+        ));
+
         wait.until(ExpectedConditions.elementToBeClickable(learnButton)).click();
     }
 
     public void  clickLearningMaterialsButton(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//button[.//span[normalize-space()='Learning Materials']]")
+        ));
         wait.until(ExpectedConditions.elementToBeClickable(learningMaterialsButton)).click();
     }
 
