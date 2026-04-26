@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,10 +12,10 @@ public class HomePage {
     WebDriver driver;
     WebDriverWait wait;
 
-    @FindBy(xpath = "//h1[@class=\"hero-title\"]")
+    @FindBy(xpath = "//h1[contains(@class,'hero-title')]")
     WebElement welcomeMessage;
 
-    @FindBy(xpath = "//button[@class=\"user-pill\"]")
+    @FindBy(xpath = "//button[contains(@class,'user-pill')]")
     WebElement loginButton;
 
     public HomePage(WebDriver driver) {
@@ -26,6 +27,10 @@ public class HomePage {
 
     //method to get the welcome message text
     public String getWelcomeMessage() {
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//h1[contains(@class,'hero-title')]")
+        ));
+
         return wait.until(ExpectedConditions.visibilityOf(welcomeMessage)).getText();
     }
 
