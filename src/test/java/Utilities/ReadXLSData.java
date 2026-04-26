@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 public class ReadXLSData {
@@ -13,9 +14,14 @@ public class ReadXLSData {
         @DataProvider(name = "testData")
         public String[][] getData(Method method) throws IOException {
             String excelSheetName = method.getName(); // Get the name of the test method
-            File file = new File(System.getProperty("user.dir") + "/src/test/resources/TestData/TestData.xlsx"); // Locate the Excel file
-            FileInputStream fileInputStream = new FileInputStream(file);
-            Workbook workbook = WorkbookFactory.create(fileInputStream); // Create a Workbook from the input stream
+            InputStream is = getClass()
+                    .getClassLoader()
+                    .getResourceAsStream("TestData/TestData.xlsx");
+
+            if (is == null) {
+                throw new RuntimeException("Excel file NOT FOUND in resources!");
+            }
+            Workbook workbook = WorkbookFactory.create(is); // Create a Workbook from the input stream
             Sheet sheetName = workbook.getSheet(excelSheetName); // Get the sheet by name
 
 

@@ -40,6 +40,9 @@ jobs:
       - name: Run TestNG suites (testng.xml)
         timeout-minutes: 15
         run: mvn -U test -Dsurefire.suiteXmlFiles=testng.xml
+        env:
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
 
       - name: Show generated folders
