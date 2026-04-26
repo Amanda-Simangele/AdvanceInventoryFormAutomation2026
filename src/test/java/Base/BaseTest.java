@@ -22,11 +22,20 @@ public class BaseTest  {
 
 
     @BeforeClass
-    public void startBrowser(){
-        BrowserFactory browserFactory = new BrowserFactory();
-        driver = browserFactory.setupDriver(ConfigReader.get("browser"));
+    public void startBrowser() {
+
+        // ✅ Use static factory (no object creation)
+        driver = BrowserFactory.setupDriver(ConfigReader.get("browser"));
+
+        // ✅ Stability
         driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // ✅ Navigate after setup
         driver.get(ConfigReader.get("url"));
+
+        // ✅ Initialize pages AFTER driver is ready
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         learningMaterialPage = new LearningMaterialPage(driver);
@@ -40,7 +49,7 @@ public class BaseTest  {
         return driver;
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
             driver.quit();
