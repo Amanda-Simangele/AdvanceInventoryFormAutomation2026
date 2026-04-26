@@ -24,7 +24,7 @@ public class BaseTest  {
     @BeforeClass
     public void startBrowser(){
         BrowserFactory browserFactory = new BrowserFactory();
-        driver = browserFactory.SetupDriver(ConfigReader.get("browser"));
+        driver = browserFactory.setupDriver(ConfigReader.get("browser"));
         driver.manage().window().maximize();
         driver.get(ConfigReader.get("url"));
         homePage = new HomePage(driver);
