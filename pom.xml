@@ -57,6 +57,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- WebDriverManager - auto-manage browser drivers (helps CI) -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>6.3.4</version>
+        </dependency>
+
         <!-- Source: https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
