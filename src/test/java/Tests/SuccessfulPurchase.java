@@ -13,8 +13,17 @@ public class SuccessfulPurchase extends BaseTest {
         homePage.clickLoginButton();
     }
 
-    @Test(dependsOnMethods = "verifyLoginPageTitle", dataProvider = "testData")
+    @Test(dependsOnMethods = "verifyLoginPageTitle", dataProviderClass = ReadXLSData.class, dataProvider = "testData")
     public void login(String username, String password) {
+        String envUser = System.getenv("TEST_USERNAME");
+        String envPass = System.getenv("TEST_PASSWORD");
+
+        // If running in CI → use secrets
+        if (envUser != null && envPass != null) {
+            username = envUser;
+            password = envPass;
+        }
+
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
         loginPage.clickLoginButton();
