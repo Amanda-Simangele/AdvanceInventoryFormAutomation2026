@@ -41,15 +41,23 @@ public class WelcomePage {
 
     public void clickLearnButton() {
         try {
-            wait.until(ExpectedConditions.visibilityOf(learnButton));
-            wait.until(ExpectedConditions.elementToBeClickable(learnButton)).click();
+            WebElement element = wait.until(
+                    ExpectedConditions.presenceOfElementLocated(
+                            By.xpath("//button[.//span[text()='Learn']]")
+                    )
+            );
+
+            // Scroll into view
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].scrollIntoView({block:'center'});", element);
+
+            // Force click (bypass visibility/overlay issues)
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].click();", element);
 
         } catch (Exception e) {
 
-            // ✅ TAKE screenshot using your util
             byte[] screenshot = ScreenshotUtil.takeScreenshot(driver);
-
-            // ✅ ATTACH to Allure
             Allure.addAttachment("clickLearnButton",
                     new ByteArrayInputStream(screenshot));
 

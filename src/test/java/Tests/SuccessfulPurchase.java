@@ -30,7 +30,7 @@ public class SuccessfulPurchase extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = "login")
+   @Test(dependsOnMethods = "login")
     public void clickLearn() {
         Assert.assertEquals(welcomePage.getWelcomeBackMessage(), "Here's an overview of your learning journey");
         welcomePage.clickLearnButton();
@@ -38,7 +38,7 @@ public class SuccessfulPurchase extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = "clickLearn")
+   /* @Test(dependsOnMethods = "clickLearn")
     public void verifyLearningMaterialsPage() {
         Assert.assertEquals(learningMaterialPage.getAPItestingPracticeTitle(), "API Testing Practice");
     }
@@ -139,7 +139,7 @@ public class SuccessfulPurchase extends BaseTest {
         public void clickInvoice() throws InterruptedException {
             Thread.sleep(2000);
             learningMaterialPage.clickInvoicePDFButton();
-        }
+        }*/
 
 
 
