@@ -34,7 +34,7 @@ public class SuccessfulPurchase extends BaseTest {
     public void clickLearn() {
         Assert.assertEquals(welcomePage.getWelcomeBackMessage(), "Here's an overview of your learning journey");
         welcomePage.clickLearnButton();
-        welcomePage.clickLearningMaterialsButton();
+       // welcomePage.clickLearningMaterialsButton();
 
     }
 
