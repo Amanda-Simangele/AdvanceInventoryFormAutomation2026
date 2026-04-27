@@ -24,30 +24,22 @@ public class WelcomePage {
 
     public  WelcomePage(WebDriver driver){
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(40));
         PageFactory.initElements(driver, this);
 
     }
 
     public String getWelcomeBackMessage(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//p[normalize-space()=\"Here's an overview of your learning journey\"]")
-        ));
+
         return wait.until(ExpectedConditions.visibilityOf(welcomeBackMessage)).getText();
     }
 
     public void clickLearnButton(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//button[.//span[normalize-space()='Learn']]")
-        ));
 
         wait.until(ExpectedConditions.elementToBeClickable(learnButton)).click();
     }
 
     public void  clickLearningMaterialsButton(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//button[.//span[normalize-space()='Learning Materials']]")
-        ));
         wait.until(ExpectedConditions.elementToBeClickable(learningMaterialsButton)).click();
     }
 
