@@ -3,52 +3,39 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import Utilities.ElementUtil;
 
 public class HomePage {
     WebDriver driver;
     WebDriverWait wait;
+    ElementUtil util;
 
-    @FindBy(xpath = "//h1[contains(@class,'hero-title')]")
-    WebElement welcomeMessage;
+    By welcomeMessage = By.xpath("//h1[contains(@class,'hero-title')]");
 
-    @FindBy(xpath = "//button[contains(@class,'user-pill')]")
-    WebElement loginButton;
+    By loginButton = By.xpath("//button[contains(@class,'user-pill')]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(20));
-        PageFactory.initElements(driver, this);
+        this.util = new ElementUtil(driver);
 
     }
 
     //method to get the welcome message text
     public String getWelcomeMessage() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//h1[contains(@class,'hero-title')]")
-        ));
+        wait.until(ExpectedConditions.presenceOfElementLocated(welcomeMessage));
 
-        return wait.until(ExpectedConditions.visibilityOf(welcomeMessage)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMessage)).getText();
     }
 
     // method to click on the login button
     public void clickLoginButton() {
-        wait.until(ExpectedConditions.visibilityOf(welcomeMessage));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMessage));
 
-        WebElement button = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//button[contains(@class,'user-pill')]")
-        ));
-
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].scrollIntoView(true);", button);
-
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].click();", button);
+        // use ElementUtil which does scroll + safe click (JS fallback)
+        util.click(loginButton);
     }
-
 
 }

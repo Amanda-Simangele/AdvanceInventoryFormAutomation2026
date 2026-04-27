@@ -1,19 +1,12 @@
 package Pages;
 
-
-import Utilities.ScreenshotUtil;
-import io.qameta.allure.Allure;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import Utilities.ElementUtil;
-
-import javax.swing.text.Utilities;
-import java.io.ByteArrayInputStream;
-
-import static Utilities.ScreenshotUtil.takeScreenshot;
 
 public class WelcomePage {
     WebDriver driver;
@@ -22,38 +15,30 @@ public class WelcomePage {
 
     By learnButton = By.xpath("//button[.//span[text()='Learn']]");
 
-    @FindBy (xpath = "//p[normalize-space()=\"Here's an overview of your learning journey\"]")
-    WebElement welcomeBackMessage;
+    By welcomeBackMessage = By.xpath("//p[normalize-space()=\"Here's an overview of your learning journey\"]");
 
-    @FindBy (xpath = "//button[.//span[normalize-space()='Learning Materials']]")
-    WebElement learningMaterialsButton;
+    By learningMaterialsButton = By.xpath("//button[.//span[normalize-space()='Learning Materials']]");
 
 
     public  WelcomePage(WebDriver driver){
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(40));
-        PageFactory.initElements(driver, this);
-
+        this.util = new ElementUtil(driver);
+        // removed PageFactory usage to prefer explicit By locators + ElementUtil
     }
 
     public String getWelcomeBackMessage(){
-
-        return wait.until(ExpectedConditions.visibilityOf(welcomeBackMessage)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeBackMessage)).getText();
     }
 
     public void clickLearnButton() {
         util.click(learnButton);
     }
 
+    @SuppressWarnings("unused")
     public void  clickLearningMaterialsButton(){
-        WebElement element = wait.until(ExpectedConditions.refreshed(
-                ExpectedConditions.elementToBeClickable(learningMaterialsButton)
-        ));
-
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
-
-        element.click();
+        // prefer ElementUtil.click which does waiting, scrolling and JS fallback
+        util.click(learningMaterialsButton);
     }
 
 }

@@ -43,6 +43,8 @@ public class BrowserFactory {
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
             options.addArguments("--disable-software-rasterizer");
+            // allow origins — helps with some newer Chrome/Chromedriver CI combos
+            options.addArguments("--remote-allow-origins=*");
         }
 
         // ✅ THIS LINE FIXES EVERYTHING

@@ -5,7 +5,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 
 public class ElementUtil {
 
@@ -79,4 +85,24 @@ public class ElementUtil {
             Thread.sleep(ms);
         } catch (InterruptedException ignored) {}
     }
+
+    // 📸 Simple screenshot helper — writes PNG to target/screenshots and returns the absolute path
+    public String takeScreenshot(String namePrefix) {
+        try {
+            byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            String ts = DateTimeFormatter.ISO_INSTANT.format(Instant.now()).replace(':','-');
+            String fileName = String.format("%s_%s.png", namePrefix, ts);
+            Path outDir = Paths.get("target", "screenshots");
+            if (!Files.exists(outDir)) {
+                Files.createDirectories(outDir);
+            }
+            Path out = outDir.resolve(fileName);
+            Files.write(out, bytes);
+            return out.toAbsolutePath().toString();
+        } catch (WebDriverException | IOException e) {
+            // don't fail the test solely because screenshot failed — return null
+            return null;
+        }
+    }
+
 }

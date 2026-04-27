@@ -1,126 +1,109 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import Utilities.ElementUtil;
 
 public class LearningMaterialPage {
 
     WebDriver driver;
     WebDriverWait wait;
+    ElementUtil util;
 
-    @FindBy(xpath = "//h3[normalize-space()='API Testing Practice']")
-    WebElement aPItestingPracticeTitle;
+    By aPItestingPracticeTitle = By.xpath("//h3[normalize-space()='API Testing Practice']");
 
-    @FindBy(xpath = "//button[@id='tab-btn-web']")
-    WebElement webTabButton;
+    By webTabButton = By.xpath("//button[@id='tab-btn-web']");
 
-    @FindBy(id = "deviceType")
-    WebElement deviceTypeDropdown;
+    By deviceTypeDropdown = By.id("deviceType");
 
-    @FindBy(id = "brand")
-    WebElement brandDropdown;
+    By brandDropdown = By.id("brand");
 
-    @FindBy(id = "storage-128GB")
-    WebElement storage128GBRadioButton;
+    By storage128GBRadioButton = By.id("storage-128GB");
 
-    @FindBy(id = "color")
-    WebElement colorDropdown;
+    By colorDropdown = By.id("color");
 
-    @FindBy(id = "quantity")
-    WebElement quantityInput;
+    By quantityInput = By.id("quantity");
 
-    @FindBy(id = "subtotal-value")
-    WebElement subtotalLabel;
+    By subtotalLabel = By.id("subtotal-value");
 
-    @FindBy(id = "address")
-    WebElement addressInput;
+    By addressInput = By.id("address");
 
-    @FindBy(id = "inventory-next-btn")
-    WebElement nextButton;
+    By nextButton = By.id("inventory-next-btn");
 
-    @FindBy(id = "shipping-express")
-    WebElement expressShippingRadioButton;
+    By expressShippingRadioButton = By.id("shipping-express");
 
-    @FindBy(id = "breakdown-shipping-value")
-    WebElement shippingCostLabel;
+    By shippingCostLabel = By.id("breakdown-shipping-value");
 
-    @FindBy(id = "warranty-option-1yr")
-    WebElement warranty1YearRadioButton;
+    By warranty1YearRadioButton = By.id("warranty-option-1yr");
 
-    @FindBy(id = "breakdown-warranty-value")
-    WebElement warrantyCostLabel;
+    By warrantyCostLabel = By.id("breakdown-warranty-value");
 
-    @FindBy(id = "discount-code")
-    WebElement discountCodeInput;
+    By discountCodeInput = By.id("discount-code");
 
-    @FindBy(id = "apply-discount-btn")
-    WebElement applyDiscountButton;
+    By applyDiscountButton = By.id("apply-discount-btn");
 
-    @FindBy(id = "breakdown-discount-value")
-    WebElement discountValueLabel;
+    By discountValueLabel = By.id("breakdown-discount-value");
 
-    @FindBy(id = "purchase-device-btn")
-    WebElement purchaseButton;
+    By purchaseButton = By.id("purchase-device-btn");
 
-    @FindBy(xpath = "//h4[@style=\"color: rgb(22, 163, 74); margin: 0px;\"]")
-    WebElement orderConfirmationMessage;
+    By orderConfirmationMessage = By.xpath("//h4[@style=\"color: rgb(22, 163, 74); margin: 0px;\"]");
 
-    @FindBy(id = "view-history-btn")
-    WebElement viewInvoiceButton;
+    By viewInvoiceButton = By.id("view-history-btn");
 
-    @FindBy(xpath = "//button[contains(@id,'view-invoice-')]")
-    WebElement viewPDFButton;
+    By viewPDFButton = By.xpath("//button[contains(@id,'view-invoice-')]");
 
 
     public LearningMaterialPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
-        PageFactory.initElements(driver, this);
+        this.util = new ElementUtil(driver);
 
     }
 
     //method to get the API Testing Practice title text
     public String getAPItestingPracticeTitle() {
-        return wait.until(ExpectedConditions.visibilityOf(aPItestingPracticeTitle)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(aPItestingPracticeTitle)).getText();
     }
 
     //method to click on the Web automation advance tab button to view the form
     public void clickWebTabButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(webTabButton)).click();
+        util.click(webTabButton);
     }
 
     //method to select device type by visible text
     public void selectDeviceType(String deviceType) {
-        Select select = new Select(wait.until(ExpectedConditions.visibilityOf(deviceTypeDropdown)));
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(deviceTypeDropdown));
+        Select select = new Select(selectEl);
         select.selectByVisibleText(deviceType);
     }
 
     //method to select brand by visible text
     public void selectBrand(String brand) {
-        Select select = new Select(wait.until(ExpectedConditions.visibilityOf(brandDropdown)));
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(brandDropdown));
+        Select select = new Select(selectEl);
         select.selectByVisibleText(brand);
     }
 
     //method to select storage option by clicking on the 128GB radio button
     public void selectStorage128GB() {
-        wait.until(ExpectedConditions.elementToBeClickable(storage128GBRadioButton)).click();
+        util.click(storage128GBRadioButton);
     }
 
     //method to select color by visible text
     public void SelectColor(String color) {
-        Select select = new Select(wait.until(ExpectedConditions.visibilityOf(colorDropdown)));
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(colorDropdown));
+        Select select = new Select(selectEl);
         select.selectByVisibleText(color);
     }
 
     //method to select quantity by sending arrow up key twice
     public void selectQuantity() {
-        WebElement quantities = wait.until(ExpectedConditions.visibilityOf(quantityInput));
+        WebElement quantities = wait.until(ExpectedConditions.visibilityOfElementLocated(quantityInput));
         for (int i = 0; i < 2; i++) {
             quantities.sendKeys(Keys.ARROW_UP);
         }
@@ -128,60 +111,60 @@ public class LearningMaterialPage {
 
     //method to get the subtotal label text
     public String getSubtotalLabel() {
-        return wait.until(ExpectedConditions.visibilityOf(subtotalLabel)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(subtotalLabel)).getText();
 
     }
 
     public void enterAddress(String address) {
-        wait.until(ExpectedConditions.visibilityOf(addressInput)).sendKeys(address);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(addressInput)).sendKeys(address);
     }
 
     public void clickNextButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(nextButton)).click();
+        util.click(nextButton);
     }
 
     public void clickExpressShipping() {
-        wait.until(ExpectedConditions.elementToBeClickable(expressShippingRadioButton)).click();
+        util.click(expressShippingRadioButton);
     }
 
     public String verifyShippingCostLabel() {
-        return wait.until(ExpectedConditions.visibilityOf(shippingCostLabel)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(shippingCostLabel)).getText();
     }
 
     public void clickWarranty1Year() {
-        wait.until(ExpectedConditions.elementToBeClickable(warranty1YearRadioButton)).click();
+        util.click(warranty1YearRadioButton);
     }
 
     public String getWarrantyCostLabel() {
-        return wait.until(ExpectedConditions.visibilityOf(warrantyCostLabel)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(warrantyCostLabel)).getText();
     }
 
     public void enterDiscountCode(String discountCode) {
-        wait.until(ExpectedConditions.visibilityOf(discountCodeInput)).sendKeys(discountCode);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(discountCodeInput)).sendKeys(discountCode);
     }
 
     public void clickApplyDiscount() {
-        wait.until(ExpectedConditions.elementToBeClickable(applyDiscountButton)).click();
+        util.click(applyDiscountButton);
     }
 
     public String getDiscountValueLabel() {
-        return wait.until(ExpectedConditions.visibilityOf(discountValueLabel)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(discountValueLabel)).getText();
     }
 
     public void clickPurchaseButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(purchaseButton)).click();
+        util.click(purchaseButton);
     }
 
     public String getOrderConfirmationMessage() {
-        return wait.until(ExpectedConditions.visibilityOf(orderConfirmationMessage)).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(orderConfirmationMessage)).getText();
     }
 
     public void clickViewInvoiceButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(viewInvoiceButton)).click();
+        util.click(viewInvoiceButton);
     }
 
     public void clickInvoicePDFButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(viewPDFButton)).click();
+        util.click(viewPDFButton);
     }
 
 
