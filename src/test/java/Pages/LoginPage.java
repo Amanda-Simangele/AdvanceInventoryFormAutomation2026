@@ -1,41 +1,38 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import Utilities.ElementUtil;
 
 public class LoginPage {
     WebDriver driver;
     WebDriverWait wait;
+    ElementUtil util;
 
-    @FindBy(id = "login-email")
-    WebElement usernameField;
+    By usernameField = By.id("login-email");
 
-    @FindBy(id = "login-password")
-    WebElement passwordField;
+    By passwordField = By.id("login-password");
 
-    @FindBy(id = "login-submit")
-    WebElement loginButton;
+    By loginButton = By.id("login-submit");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
-        PageFactory.initElements(driver, this);
+        this.util = new ElementUtil(driver);
     }
 
     public void enterUsername(String username) {
-        wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
     }
 
     public void enterPassword(String password) {
-        wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
     }
 
     public void clickLoginButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+        util.click(loginButton);
     }
 
 }

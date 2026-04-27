@@ -15,8 +15,8 @@ import java.time.format.DateTimeFormatter;
 
 public class ElementUtil {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     public ElementUtil(WebDriver driver) {
         this.driver = driver;
@@ -46,13 +46,14 @@ public class ElementUtil {
     }
 
     // 🔁 Retry click (for flaky elements)
+    @SuppressWarnings("unused")
     public void clickWithRetry(By locator, int attempts) {
         for (int i = 0; i < attempts; i++) {
             try {
                 click(locator);
                 return;
             } catch (Exception e) {
-                sleep(1000);
+                sleep();
             }
         }
         throw new RuntimeException("Element not clickable after retries: " + locator);
@@ -71,6 +72,7 @@ public class ElementUtil {
     }
 
     // 🖱 Hover (for dropdowns if needed)
+    @SuppressWarnings("unused")
     public void hover(By locator) {
         WebElement element = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(locator)
@@ -80,9 +82,9 @@ public class ElementUtil {
     }
 
     // ⏱ small sleep helper
-    private void sleep(long ms) {
+    private void sleep() {
         try {
-            Thread.sleep(ms);
+            Thread.sleep(1000);
         } catch (InterruptedException ignored) {}
     }
 
