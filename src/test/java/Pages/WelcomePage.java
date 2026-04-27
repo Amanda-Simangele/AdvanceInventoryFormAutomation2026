@@ -1,13 +1,17 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
+import Utilities.ScreenshotUtil;
+import io.qameta.allure.Allure;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.ByteArrayInputStream;
+
+import static Utilities.ScreenshotUtil.takeScreenshot;
 
 public class WelcomePage {
     WebDriver driver;
@@ -35,15 +39,22 @@ public class WelcomePage {
         return wait.until(ExpectedConditions.visibilityOf(welcomeBackMessage)).getText();
     }
 
-    public void clickLearnButton(){
-        WebElement element = wait.until(ExpectedConditions.refreshed(
-                ExpectedConditions.elementToBeClickable(learnButton)
-        ));
+    public void clickLearnButton() {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(learnButton));
+            wait.until(ExpectedConditions.elementToBeClickable(learnButton)).click();
 
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+        } catch (Exception e) {
 
-        element.click();
+            // ✅ TAKE screenshot using your util
+            byte[] screenshot = ScreenshotUtil.takeScreenshot(driver);
+
+            // ✅ ATTACH to Allure
+            Allure.addAttachment("clickLearnButton",
+                    new ByteArrayInputStream(screenshot));
+
+            throw e;
+        }
     }
 
     public void  clickLearningMaterialsButton(){
