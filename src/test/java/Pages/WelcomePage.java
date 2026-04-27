@@ -1,6 +1,7 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,12 +36,25 @@ public class WelcomePage {
     }
 
     public void clickLearnButton(){
+        WebElement element = wait.until(ExpectedConditions.refreshed(
+                ExpectedConditions.elementToBeClickable(learnButton)
+        ));
 
-        wait.until(ExpectedConditions.elementToBeClickable(learnButton)).click();
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+
+        element.click();
     }
 
     public void  clickLearningMaterialsButton(){
-        wait.until(ExpectedConditions.elementToBeClickable(learningMaterialsButton)).click();
+        WebElement element = wait.until(ExpectedConditions.refreshed(
+                ExpectedConditions.elementToBeClickable(learningMaterialsButton)
+        ));
+
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+
+        element.click();
     }
 
 }

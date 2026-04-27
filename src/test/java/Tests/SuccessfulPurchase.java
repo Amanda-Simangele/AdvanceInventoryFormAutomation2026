@@ -27,6 +27,7 @@ public class SuccessfulPurchase extends BaseTest {
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
         loginPage.clickLoginButton();
+
     }
 
     @Test(dependsOnMethods = "login")
